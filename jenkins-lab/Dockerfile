@@ -1,0 +1,11 @@
+FROM jenkins/jenkins:lts-jdk17
+
+USER root
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends docker-cli git \
+ && rm -rf /var/lib/apt/lists/*
+
+USER jenkins
+RUN jenkins-plugin-cli --plugins \
+    git workflow-aggregator docker-workflow \
+    pipeline-stage-view timestamper ws-cleanup
